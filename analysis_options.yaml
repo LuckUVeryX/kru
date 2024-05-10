@@ -6,6 +6,10 @@ analyzer:
   plugins:
     - custom_lint
 
+custom_lint:
+  rules:
+    - missing_provider_scope: false
+
 linter:
   rules:
     lines_longer_than_80_chars: false
