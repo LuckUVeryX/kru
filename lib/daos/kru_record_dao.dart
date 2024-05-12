@@ -1,7 +1,13 @@
 import 'package:drift/drift.dart';
 import 'package:kru/database/database.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'kru_record_dao.g.dart';
+
+@riverpod
+KruRecordDao kruRecordDao(KruRecordDaoRef ref) {
+  return KruRecordDao(ref.watch(databaseProvider));
+}
 
 @DriftAccessor(tables: [KruRecords])
 class KruRecordDao extends DatabaseAccessor<AppDatabase>
@@ -9,8 +15,8 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
   KruRecordDao(super.db);
 
   Future<List<KruRecord>> records({
-    int limit = 10,
-    int offset = 0,
+    required int limit,
+    required int offset,
   }) {
     return (select(kruRecords)..limit(limit, offset: offset)).get();
   }
