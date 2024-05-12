@@ -6,6 +6,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_dev/api/migrations.dart';
 import 'package:flutter/services.dart';
+import 'package:kru/database/database.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,7 +22,11 @@ AppDatabase database(DatabaseRef ref) {
   return db;
 }
 
-@DriftDatabase()
+@DriftDatabase(
+  tables: [
+    KruRecords,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
