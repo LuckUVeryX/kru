@@ -14,15 +14,15 @@ class KruRecordContoller extends _$KruRecordContoller {
 
   Future<void> addRecord({
     required KruLocation location,
-    required DateTime start,
+    required DateTime date,
     required Duration duration,
   }) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() {
       final entry = KruRecordsCompanion.insert(
         location: location,
-        start: start,
-        end: start.add(duration),
+        date: date,
+        duration: duration.inMinutes,
       );
       return _dao.addRecord(entry);
     });

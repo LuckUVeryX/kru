@@ -41,19 +41,20 @@ class $KruRecordsTable extends KruRecords
       GeneratedColumn<String>('location', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<KruLocation>($KruRecordsTable.$converterlocation);
-  static const VerificationMeta _startMeta = const VerificationMeta('start');
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
-  late final GeneratedColumn<DateTime> start = GeneratedColumn<DateTime>(
-      'start', aliasedName, false,
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+      'date', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _endMeta = const VerificationMeta('end');
+  static const VerificationMeta _durationMeta =
+      const VerificationMeta('duration');
   @override
-  late final GeneratedColumn<DateTime> end = GeneratedColumn<DateTime>(
-      'end', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  late final GeneratedColumn<int> duration = GeneratedColumn<int>(
+      'duration', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, createdAt, updatedAt, location, start, end];
+      [id, createdAt, updatedAt, location, date, duration];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -76,17 +77,17 @@ class $KruRecordsTable extends KruRecords
           updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     }
     context.handle(_locationMeta, const VerificationResult.success());
-    if (data.containsKey('start')) {
+    if (data.containsKey('date')) {
       context.handle(
-          _startMeta, start.isAcceptableOrUnknown(data['start']!, _startMeta));
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
     } else if (isInserting) {
-      context.missing(_startMeta);
+      context.missing(_dateMeta);
     }
-    if (data.containsKey('end')) {
-      context.handle(
-          _endMeta, end.isAcceptableOrUnknown(data['end']!, _endMeta));
+    if (data.containsKey('duration')) {
+      context.handle(_durationMeta,
+          duration.isAcceptableOrUnknown(data['duration']!, _durationMeta));
     } else if (isInserting) {
-      context.missing(_endMeta);
+      context.missing(_durationMeta);
     }
     return context;
   }
@@ -106,10 +107,10 @@ class $KruRecordsTable extends KruRecords
       location: $KruRecordsTable.$converterlocation.fromSql(attachedDatabase
           .typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}location'])!),
-      start: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}start'])!,
-      end: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}end'])!,
+      date: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      duration: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}duration'])!,
     );
   }
 
@@ -127,15 +128,15 @@ class KruRecord extends DataClass implements Insertable<KruRecord> {
   final DateTime createdAt;
   final DateTime updatedAt;
   final KruLocation location;
-  final DateTime start;
-  final DateTime end;
+  final DateTime date;
+  final int duration;
   const KruRecord(
       {required this.id,
       required this.createdAt,
       required this.updatedAt,
       required this.location,
-      required this.start,
-      required this.end});
+      required this.date,
+      required this.duration});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -146,8 +147,8 @@ class KruRecord extends DataClass implements Insertable<KruRecord> {
       map['location'] =
           Variable<String>($KruRecordsTable.$converterlocation.toSql(location));
     }
-    map['start'] = Variable<DateTime>(start);
-    map['end'] = Variable<DateTime>(end);
+    map['date'] = Variable<DateTime>(date);
+    map['duration'] = Variable<int>(duration);
     return map;
   }
 
@@ -157,8 +158,8 @@ class KruRecord extends DataClass implements Insertable<KruRecord> {
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       location: Value(location),
-      start: Value(start),
-      end: Value(end),
+      date: Value(date),
+      duration: Value(duration),
     );
   }
 
@@ -171,8 +172,8 @@ class KruRecord extends DataClass implements Insertable<KruRecord> {
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       location: $KruRecordsTable.$converterlocation
           .fromJson(serializer.fromJson<String>(json['location'])),
-      start: serializer.fromJson<DateTime>(json['start']),
-      end: serializer.fromJson<DateTime>(json['end']),
+      date: serializer.fromJson<DateTime>(json['date']),
+      duration: serializer.fromJson<int>(json['duration']),
     );
   }
   @override
@@ -184,8 +185,8 @@ class KruRecord extends DataClass implements Insertable<KruRecord> {
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'location': serializer
           .toJson<String>($KruRecordsTable.$converterlocation.toJson(location)),
-      'start': serializer.toJson<DateTime>(start),
-      'end': serializer.toJson<DateTime>(end),
+      'date': serializer.toJson<DateTime>(date),
+      'duration': serializer.toJson<int>(duration),
     };
   }
 
@@ -194,15 +195,15 @@ class KruRecord extends DataClass implements Insertable<KruRecord> {
           DateTime? createdAt,
           DateTime? updatedAt,
           KruLocation? location,
-          DateTime? start,
-          DateTime? end}) =>
+          DateTime? date,
+          int? duration}) =>
       KruRecord(
         id: id ?? this.id,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         location: location ?? this.location,
-        start: start ?? this.start,
-        end: end ?? this.end,
+        date: date ?? this.date,
+        duration: duration ?? this.duration,
       );
   @override
   String toString() {
@@ -211,15 +212,15 @@ class KruRecord extends DataClass implements Insertable<KruRecord> {
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('location: $location, ')
-          ..write('start: $start, ')
-          ..write('end: $end')
+          ..write('date: $date, ')
+          ..write('duration: $duration')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode =>
-      Object.hash(id, createdAt, updatedAt, location, start, end);
+      Object.hash(id, createdAt, updatedAt, location, date, duration);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -228,8 +229,8 @@ class KruRecord extends DataClass implements Insertable<KruRecord> {
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.location == this.location &&
-          other.start == this.start &&
-          other.end == this.end);
+          other.date == this.date &&
+          other.duration == this.duration);
 }
 
 class KruRecordsCompanion extends UpdateCompanion<KruRecord> {
@@ -237,41 +238,41 @@ class KruRecordsCompanion extends UpdateCompanion<KruRecord> {
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<KruLocation> location;
-  final Value<DateTime> start;
-  final Value<DateTime> end;
+  final Value<DateTime> date;
+  final Value<int> duration;
   const KruRecordsCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.location = const Value.absent(),
-    this.start = const Value.absent(),
-    this.end = const Value.absent(),
+    this.date = const Value.absent(),
+    this.duration = const Value.absent(),
   });
   KruRecordsCompanion.insert({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     required KruLocation location,
-    required DateTime start,
-    required DateTime end,
+    required DateTime date,
+    required int duration,
   })  : location = Value(location),
-        start = Value(start),
-        end = Value(end);
+        date = Value(date),
+        duration = Value(duration);
   static Insertable<KruRecord> custom({
     Expression<int>? id,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<String>? location,
-    Expression<DateTime>? start,
-    Expression<DateTime>? end,
+    Expression<DateTime>? date,
+    Expression<int>? duration,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (location != null) 'location': location,
-      if (start != null) 'start': start,
-      if (end != null) 'end': end,
+      if (date != null) 'date': date,
+      if (duration != null) 'duration': duration,
     });
   }
 
@@ -280,15 +281,15 @@ class KruRecordsCompanion extends UpdateCompanion<KruRecord> {
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<KruLocation>? location,
-      Value<DateTime>? start,
-      Value<DateTime>? end}) {
+      Value<DateTime>? date,
+      Value<int>? duration}) {
     return KruRecordsCompanion(
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       location: location ?? this.location,
-      start: start ?? this.start,
-      end: end ?? this.end,
+      date: date ?? this.date,
+      duration: duration ?? this.duration,
     );
   }
 
@@ -308,11 +309,11 @@ class KruRecordsCompanion extends UpdateCompanion<KruRecord> {
       map['location'] = Variable<String>(
           $KruRecordsTable.$converterlocation.toSql(location.value));
     }
-    if (start.present) {
-      map['start'] = Variable<DateTime>(start.value);
+    if (date.present) {
+      map['date'] = Variable<DateTime>(date.value);
     }
-    if (end.present) {
-      map['end'] = Variable<DateTime>(end.value);
+    if (duration.present) {
+      map['duration'] = Variable<int>(duration.value);
     }
     return map;
   }
@@ -324,8 +325,8 @@ class KruRecordsCompanion extends UpdateCompanion<KruRecord> {
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('location: $location, ')
-          ..write('start: $start, ')
-          ..write('end: $end')
+          ..write('date: $date, ')
+          ..write('duration: $duration')
           ..write(')'))
         .toString();
   }
@@ -347,16 +348,16 @@ typedef $$KruRecordsTableInsertCompanionBuilder = KruRecordsCompanion Function({
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   required KruLocation location,
-  required DateTime start,
-  required DateTime end,
+  required DateTime date,
+  required int duration,
 });
 typedef $$KruRecordsTableUpdateCompanionBuilder = KruRecordsCompanion Function({
   Value<int> id,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<KruLocation> location,
-  Value<DateTime> start,
-  Value<DateTime> end,
+  Value<DateTime> date,
+  Value<int> duration,
 });
 
 class $$KruRecordsTableTableManager extends RootTableManager<
@@ -383,32 +384,32 @@ class $$KruRecordsTableTableManager extends RootTableManager<
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<KruLocation> location = const Value.absent(),
-            Value<DateTime> start = const Value.absent(),
-            Value<DateTime> end = const Value.absent(),
+            Value<DateTime> date = const Value.absent(),
+            Value<int> duration = const Value.absent(),
           }) =>
               KruRecordsCompanion(
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
             location: location,
-            start: start,
-            end: end,
+            date: date,
+            duration: duration,
           ),
           getInsertCompanionBuilder: ({
             Value<int> id = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             required KruLocation location,
-            required DateTime start,
-            required DateTime end,
+            required DateTime date,
+            required int duration,
           }) =>
               KruRecordsCompanion.insert(
             id: id,
             createdAt: createdAt,
             updatedAt: updatedAt,
             location: location,
-            start: start,
-            end: end,
+            date: date,
+            duration: duration,
           ),
         ));
 }
@@ -450,13 +451,13 @@ class $$KruRecordsTableFilterComposer
               column,
               joinBuilders: joinBuilders));
 
-  ColumnFilters<DateTime> get start => $state.composableBuilder(
-      column: $state.table.start,
+  ColumnFilters<DateTime> get date => $state.composableBuilder(
+      column: $state.table.date,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<DateTime> get end => $state.composableBuilder(
-      column: $state.table.end,
+  ColumnFilters<int> get duration => $state.composableBuilder(
+      column: $state.table.duration,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 }
@@ -484,13 +485,13 @@ class $$KruRecordsTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<DateTime> get start => $state.composableBuilder(
-      column: $state.table.start,
+  ColumnOrderings<DateTime> get date => $state.composableBuilder(
+      column: $state.table.date,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<DateTime> get end => $state.composableBuilder(
-      column: $state.table.end,
+  ColumnOrderings<int> get duration => $state.composableBuilder(
+      column: $state.table.duration,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }

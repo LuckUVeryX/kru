@@ -5,8 +5,8 @@ class KruRecords extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDate)();
   DateTimeColumn get updatedAt => dateTime().withDefault(currentDate)();
   TextColumn get location => textEnum<KruLocation>()();
-  DateTimeColumn get start => dateTime()();
-  DateTimeColumn get end => dateTime()();
+  DateTimeColumn get date => dateTime()();
+  IntColumn get duration => integer()();
 }
 
 enum KruLocation { fes, oc, kinex, sv, cq }
