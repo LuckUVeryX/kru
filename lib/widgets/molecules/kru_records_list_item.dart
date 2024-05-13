@@ -48,7 +48,7 @@ class KruRecordsListItem extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        title: Text(record.location.name),
+        title: Text(record.location.name.toUpperCase()),
         subtitle: Text(DateFormat.yMMMEd().format(record.date)),
       ),
     );
