@@ -12,7 +12,7 @@ class KruRecordAddFloatingActionButton extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
       onPressed: () async {
-        final notifier = ref.read(kruRecordContollerProvider.notifier);
+        final notifier = ref.read(kruRecordContollerProvider().notifier);
         final record = await KruRecordAddPage.push(context);
         if (record == null) return;
         await notifier.addRecord(record);

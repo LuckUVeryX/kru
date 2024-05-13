@@ -15,7 +15,8 @@ class KruRecordsListView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SliverList.builder(
       itemBuilder: (context, index) {
-        final provider = kruRecordsProvider(offset: (index ~/ _limit) * _limit);
+        final provider =
+            kruRecordContollerProvider(offset: (index ~/ _limit) * _limit);
         final indexInPage = index % _limit;
         final recordsList = ref.watch(provider);
 
@@ -25,7 +26,10 @@ class KruRecordsListView extends HookConsumerWidget {
             final record = records[indexInPage];
             return KruRecordsListItem(
               record: record,
-              onTap: () {},
+              onDismissed: (direction) async {
+                final notifier = ref.read(provider.notifier);
+                return notifier.deleteRecord(record);
+              },
             );
           },
           error: (error, stackTrace) {

@@ -20,11 +20,13 @@ const h4 = EdgeInsets.symmetric(horizontal: 4);
 const h8 = EdgeInsets.symmetric(horizontal: 8);
 const h12 = EdgeInsets.symmetric(horizontal: 12);
 const h16 = EdgeInsets.symmetric(horizontal: 16);
+const h24 = EdgeInsets.symmetric(horizontal: 24);
 
 const v4 = EdgeInsets.symmetric(vertical: 4);
 const v8 = EdgeInsets.symmetric(vertical: 8);
 const v12 = EdgeInsets.symmetric(vertical: 12);
 const v16 = EdgeInsets.symmetric(vertical: 16);
+const v24 = EdgeInsets.symmetric(vertical: 24);
 
 const all0 = EdgeInsets.zero;
 const all4 = EdgeInsets.all(4);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:kru/providers/kru_record_provider.dart';
+import 'package:kru/providers/providers.dart';
 import 'package:kru/widgets/widgets.dart';
 
 class RootPage extends HookConsumerWidget {
@@ -14,13 +14,13 @@ class RootPage extends HookConsumerWidget {
         // Top app bar (large) container height + kToolbarHeight
         edgeOffset: 152 + kToolbarHeight,
         onRefresh: () async {
-          ref.invalidate(kruRecordsProvider);
-          return ref.refresh(kruRecordsProvider().future);
+          ref.invalidate(kruRecordContollerProvider);
+          return ref.refresh(kruRecordContollerProvider().future);
         },
         child: const CustomScrollView(
           slivers: [
             SliverAppBar.large(
-              title: Text('Kru'),
+              title: Text('Kru Laiyan'),
             ),
             KruRecordsListView(),
             sp48Sliver,

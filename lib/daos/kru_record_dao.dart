@@ -18,7 +18,10 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
     required int limit,
     required int offset,
   }) {
-    return (select(kruRecords)..limit(limit, offset: offset)).get();
+    return (select(kruRecords)
+          ..orderBy([(tbl) => OrderingTerm.desc(tbl.date)])
+          ..limit(limit, offset: offset))
+        .get();
   }
 
   Future<int> addRecord(KruRecordsCompanion entry) {
