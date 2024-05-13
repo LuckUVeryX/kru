@@ -8,6 +8,14 @@ const sp24 = SizedBox.square(dimension: 24);
 const sp32 = SizedBox.square(dimension: 32);
 const sp48 = SizedBox.square(dimension: 48);
 
+const sp4Sliver = SliverToBoxAdapter(child: sp4);
+const sp8Sliver = SliverToBoxAdapter(child: sp8);
+const sp12Sliver = SliverToBoxAdapter(child: sp12);
+const sp16Sliver = SliverToBoxAdapter(child: sp16);
+const sp24Sliver = SliverToBoxAdapter(child: sp24);
+const sp32Sliver = SliverToBoxAdapter(child: sp32);
+const sp48Sliver = SliverToBoxAdapter(child: sp48);
+
 const h4 = EdgeInsets.symmetric(horizontal: 4);
 const h8 = EdgeInsets.symmetric(horizontal: 8);
 const h12 = EdgeInsets.symmetric(horizontal: 12);

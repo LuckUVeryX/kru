@@ -106,12 +106,7 @@ class KruRecordAddPage extends HookConsumerWidget {
                 ),
               ),
               Text(
-                () {
-                  final duration = Duration(
-                    minutes: newRecord.value.duration.value,
-                  );
-                  return '${duration.inHours}h ${duration.inMinutes % 60}m';
-                }.call(),
+                Duration(minutes: newRecord.value.duration.value).inHoursMins,
                 textAlign: TextAlign.center,
               ),
             ],

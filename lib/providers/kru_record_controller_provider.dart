@@ -12,18 +12,9 @@ class KruRecordContoller extends _$KruRecordContoller {
   @override
   FutureOr<void> build() {}
 
-  Future<void> addRecord({
-    required KruLocation location,
-    required DateTime date,
-    required Duration duration,
-  }) async {
+  Future<void> addRecord(KruRecordsCompanion entry) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() {
-      final entry = KruRecordsCompanion.insert(
-        location: location,
-        date: date,
-        duration: duration.inMinutes,
-      );
       return _dao.addRecord(entry);
     });
     ref.invalidate(kruRecordsProvider);
