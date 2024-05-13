@@ -1,4 +1,4 @@
-package com.luckuveryx.kru
+package com.luckuveryx.krulaiyan
 
 import io.flutter.embedding.android.FlutterActivity
 
