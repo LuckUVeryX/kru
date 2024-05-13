@@ -4,7 +4,7 @@ analyzer:
   exclude:
     - lib/**.g.dart
   plugins:
-    - custom_lint
+    # - custom_lint
 
 custom_lint:
   rules:
