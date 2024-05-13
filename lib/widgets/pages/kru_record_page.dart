@@ -27,7 +27,7 @@ class KruRecordPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final newRecord = useState(
+    final recordState = useState(
       record?.toCompanion(true) ??
           KruRecordsCompanion.insert(
             duration: 2 * 60,
@@ -39,8 +39,8 @@ class KruRecordPage extends HookConsumerWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar.large(
-            title: Text('Record'),
+          SliverAppBar.large(
+            title: Text('${record == null ? 'New' : 'Edit'} Record'),
           ),
           SliverList.list(
             children: [
@@ -57,11 +57,11 @@ class KruRecordPage extends HookConsumerWidget {
                   dense: true,
                   visualDensity: VisualDensity.compact,
                   value: e,
-                  groupValue: newRecord.value.location.value,
+                  groupValue: recordState.value.location.value,
                   title: Text(e.name.toUpperCase()),
                   onChanged: (value) {
                     if (value == null) return;
-                    newRecord.value = newRecord.value.copyWith(
+                    recordState.value = recordState.value.copyWith(
                       location: drift.Value(value),
                     );
                   },
@@ -81,18 +81,18 @@ class KruRecordPage extends HookConsumerWidget {
                   onPressed: () async {
                     final date = await showDatePicker(
                       context: context,
-                      initialDate: newRecord.value.date.value,
+                      initialDate: recordState.value.date.value,
                       firstDate: DateTime(DateTime.now().year - 1),
                       lastDate: DateTime(DateTime.now().year + 1),
                       initialEntryMode: DatePickerEntryMode.calendarOnly,
                     );
                     if (date == null) return;
-                    newRecord.value = newRecord.value.copyWith(
+                    recordState.value = recordState.value.copyWith(
                       date: drift.Value(date),
                     );
                   },
                   child: Text(
-                    DateFormat.yMMMEd().format(newRecord.value.date.value),
+                    DateFormat.yMMMEd().format(recordState.value.date.value),
                   ),
                 ),
               ),
@@ -107,16 +107,16 @@ class KruRecordPage extends HookConsumerWidget {
                   max: 60 * 8,
                   // 8 Hours to 15 min intervals
                   divisions: (8 * 60 - 45) ~/ 15,
-                  value: newRecord.value.duration.value.toDouble(),
+                  value: recordState.value.duration.value.toDouble(),
                   onChanged: (value) {
-                    newRecord.value = newRecord.value.copyWith(
+                    recordState.value = recordState.value.copyWith(
                       duration: drift.Value(value.toInt()),
                     );
                   },
                 ),
               ),
               Text(
-                Duration(minutes: newRecord.value.duration.value).inHoursMins,
+                Duration(minutes: recordState.value.duration.value).inHoursMins,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -125,7 +125,9 @@ class KruRecordPage extends HookConsumerWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         child: OutlinedButton(
-          onPressed: () => context.pop(newRecord.value),
+          onPressed: record?.toCompanion(true) == recordState.value
+              ? null
+              : () => context.pop(recordState.value),
           child: const Text('Save'),
         ),
       ),
