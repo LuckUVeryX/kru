@@ -27,7 +27,7 @@ class KruRecordContoller extends _$KruRecordContoller {
     }
   }
 
-  Future<void> updateRecord(KruRecord entry) async {
+  Future<void> updateRecord(KruRecordsCompanion entry) async {
     state = const AsyncLoading();
     try {
       await _dao.updateRecord(entry);

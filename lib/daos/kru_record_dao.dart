@@ -32,8 +32,8 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
     return batch((batch) => batch.insertAll(kruRecords, entries));
   }
 
-  Future<void> updateRecord(KruRecord entry) {
-    return update(kruRecords).replace(entry);
+  Future<void> updateRecord(KruRecordsCompanion entry) {
+    return (update(kruRecords)..whereSamePrimaryKey(entry)).write(entry);
   }
 
   Future<void> deleteRecord(KruRecord entry) {

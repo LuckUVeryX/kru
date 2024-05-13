@@ -7,23 +7,33 @@ import 'package:kru/database/database.dart';
 import 'package:kru/utils/utils.dart';
 import 'package:kru/widgets/widgets.dart';
 
-class KruRecordAddPage extends HookConsumerWidget {
-  const KruRecordAddPage._();
+class KruRecordPage extends HookConsumerWidget {
+  const KruRecordPage._({
+    required this.record,
+  });
 
-  static Future<KruRecordsCompanion?> push(BuildContext context) {
+  static Future<KruRecordsCompanion?> push(
+    BuildContext context, {
+    KruRecord? record,
+  }) {
     return Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const KruRecordAddPage._()),
+      MaterialPageRoute(
+        builder: (context) => KruRecordPage._(record: record),
+      ),
     );
   }
+
+  final KruRecord? record;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final newRecord = useState(
-      KruRecordsCompanion.insert(
-        duration: 2 * 60,
-        date: DateTime.now(),
-        location: KruLocation.cq,
-      ),
+      record?.toCompanion(true) ??
+          KruRecordsCompanion.insert(
+            duration: 2 * 60,
+            date: DateTime.now(),
+            location: KruLocation.cq,
+          ),
     );
 
     return Scaffold(
