@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kru/daos/daos.dart';
 import 'package:kru/database/database.dart';
+import 'package:kru/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'kru_record_controller.g.dart';
@@ -15,6 +16,7 @@ class KruRecordContoller extends _$KruRecordContoller {
     int offset = 0,
     DateTimeRange? range,
   }) {
+    ref.cache();
     return _dao.records(limit: limit, offset: offset, range: range);
   }
 
