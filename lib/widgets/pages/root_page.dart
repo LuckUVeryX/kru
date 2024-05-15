@@ -15,12 +15,17 @@ class RootPage extends HookConsumerWidget {
         edgeOffset: 152 + kToolbarHeight,
         onRefresh: () async {
           ref.invalidate(kruRecordContollerProvider);
-          return ref.refresh(kruRecordContollerProvider().future);
+          return ref.refresh(
+            kruRecordContollerProvider(
+              range: ref.read(kruRecordDateRangeControllerProvider),
+            ).future,
+          );
         },
         child: const CustomScrollView(
           slivers: [
             SliverAppBar.large(
               title: Text('Kru Laiyan'),
+              actions: [KruRecordDateRangeIconButton()],
             ),
             KruRecordsListView(),
             sp48Sliver,

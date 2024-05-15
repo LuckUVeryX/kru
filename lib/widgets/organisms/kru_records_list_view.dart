@@ -13,10 +13,13 @@ class KruRecordsListView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedDateRange = ref.watch(kruRecordDateRangeControllerProvider);
+
     return SliverList.builder(
       itemBuilder: (context, index) {
         final provider = kruRecordContollerProvider(
           offset: (index ~/ _limit) * _limit,
+          range: selectedDateRange,
         );
         final indexInPage = index % _limit;
         final recordsList = ref.watch(provider);

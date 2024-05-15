@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:kru/providers/kru_record_controller_provider.dart';
+import 'package:kru/providers/providers.dart';
 import 'package:kru/widgets/widgets.dart';
 
 class KruRecordAddFloatingActionButton extends HookConsumerWidget {

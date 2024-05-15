@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:kru/daos/daos.dart';
 import 'package:kru/database/database.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'kru_record_controller_provider.g.dart';
+part 'kru_record_controller.g.dart';
 
 @riverpod
 class KruRecordContoller extends _$KruRecordContoller {
@@ -12,8 +13,9 @@ class KruRecordContoller extends _$KruRecordContoller {
   FutureOr<List<KruRecord>> build({
     int limit = 10,
     int offset = 0,
+    DateTimeRange? range,
   }) {
-    return _dao.records(limit: limit, offset: offset);
+    return _dao.records(limit: limit, offset: offset, range: range);
   }
 
   Future<void> addRecord(KruRecordsCompanion entry) async {

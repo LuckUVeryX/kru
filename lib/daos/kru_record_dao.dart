@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:flutter/material.dart';
 import 'package:kru/database/database.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -17,11 +18,17 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
   Future<List<KruRecord>> records({
     required int limit,
     required int offset,
+    DateTimeRange? range,
   }) {
-    return (select(kruRecords)
-          ..orderBy([(tbl) => OrderingTerm.desc(tbl.date)])
-          ..limit(limit, offset: offset))
-        .get();
+    final tbl = select(kruRecords)
+      ..orderBy([(tbl) => OrderingTerm.desc(tbl.date)])
+      ..limit(limit, offset: offset);
+
+    if (range != null) {
+      tbl.where((tbl) => tbl.date.isBetweenValues(range.start, range.end));
+    }
+
+    return tbl.get();
   }
 
   Future<int> addRecord(KruRecordsCompanion entry) {
