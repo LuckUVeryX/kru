@@ -9,18 +9,6 @@ class KruRecordDateRangeIconButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hasRange = ref.watch(
-      kruRecordDateRangeControllerProvider.select((value) => value != null),
-    );
-
-    if (hasRange) {
-      return TextButton(
-        onPressed:
-            ref.read(kruRecordDateRangeControllerProvider.notifier).reset,
-        child: const Text('Reset'),
-      );
-    }
-
     return IconButton(
       onPressed: () async {
         final notifier =
@@ -37,6 +25,20 @@ class KruRecordDateRangeIconButton extends HookConsumerWidget {
         notifier.onChanged(range);
       },
       icon: const Icon(Icons.date_range),
+    );
+  }
+}
+
+class KruRecordDateRangeResetButton extends HookConsumerWidget {
+  const KruRecordDateRangeResetButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextButton(
+      onPressed: ref.read(kruRecordDateRangeControllerProvider.notifier).reset,
+      child: const Text('Reset'),
     );
   }
 }

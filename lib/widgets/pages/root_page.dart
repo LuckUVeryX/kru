@@ -23,10 +23,7 @@ class RootPage extends HookConsumerWidget {
         },
         child: const CustomScrollView(
           slivers: [
-            SliverAppBar.large(
-              title: Text('Kru Laiyan'),
-              actions: [KruRecordDateRangeIconButton()],
-            ),
+            KruRecordAppBar(),
             KruRecordsListView(),
             sp48Sliver,
           ],

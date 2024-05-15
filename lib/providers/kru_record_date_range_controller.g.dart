@@ -7,7 +7,7 @@ part of 'kru_record_date_range_controller.dart';
 // **************************************************************************
 
 String _$kruRecordDateRangeControllerHash() =>
-    r'3bb0a7320ee61d2788b94bfd90cd81e4135740b3';
+    r'aea9991b5bee3d4551a80b86065f51b3bfc50caf';
 
 /// See also [KruRecordDateRangeController].
 @ProviderFor(KruRecordDateRangeController)

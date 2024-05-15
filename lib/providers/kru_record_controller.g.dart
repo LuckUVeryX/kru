@@ -7,7 +7,7 @@ part of 'kru_record_controller.dart';
 // **************************************************************************
 
 String _$kruRecordContollerHash() =>
-    r'a98620329fa11a7aefc65c04e0e3b50af4d1efe0';
+    r'36947d4e9c3fd492dfbb2b36602969dc8f68f2e5';
 
 /// Copied from Dart SDK
 class _SystemHash {

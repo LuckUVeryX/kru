@@ -31,6 +31,16 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
     return tbl.get();
   }
 
+  Future<int> totalDuration(DateTimeRange range) async {
+    final query = selectOnly(kruRecords)
+      ..addColumns([kruRecords.duration.sum()])
+      ..where(kruRecords.date.isBetweenValues(range.start, range.end));
+    final result = await query
+        .map((row) => row.read(kruRecords.duration.sum()))
+        .getSingle();
+    return result ?? 0;
+  }
+
   Future<int> addRecord(KruRecordsCompanion entry) {
     return into(kruRecords).insert(entry);
   }

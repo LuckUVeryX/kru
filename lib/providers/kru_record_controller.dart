@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kru/daos/daos.dart';
 import 'package:kru/database/database.dart';
+import 'package:kru/providers/providers.dart';
 import 'package:kru/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -24,7 +25,9 @@ class KruRecordContoller extends _$KruRecordContoller {
     state = const AsyncLoading();
     try {
       await _dao.addRecord(entry);
-      ref.invalidateSelf();
+      ref
+        ..invalidate(kruRecordSumProvider)
+        ..invalidateSelf();
       await future;
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -35,7 +38,9 @@ class KruRecordContoller extends _$KruRecordContoller {
     state = const AsyncLoading();
     try {
       await _dao.updateRecord(entry);
-      ref.invalidateSelf();
+      ref
+        ..invalidate(kruRecordSumProvider)
+        ..invalidateSelf();
       await future;
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -47,7 +52,9 @@ class KruRecordContoller extends _$KruRecordContoller {
     state = AsyncData(prev.toList()..removeWhere((e) => entry.id == e.id));
     try {
       await _dao.deleteRecord(entry);
-      ref.invalidateSelf();
+      ref
+        ..invalidate(kruRecordSumProvider)
+        ..invalidateSelf();
       await future;
     } catch (e, st) {
       state = AsyncData(prev);
