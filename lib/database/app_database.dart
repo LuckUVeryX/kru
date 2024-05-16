@@ -31,7 +31,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -43,6 +43,21 @@ class AppDatabase extends _$AppDatabase {
           // matches what drift expects (https://drift.simonbinder.eu/docs/advanced-features/migrations/#verifying-a-database-schema-at-runtime).
           // It allows catching bugs in the migration logic early.
           await validateDatabaseSchema();
+        },
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            // Normalised KruRecord.date
+            await m.alterTable(
+              TableMigration(
+                kruRecords,
+                columnTransformer: {
+                  kruRecords.date: kruRecords.date.modifyAll(
+                    [const DateTimeModifier.startOfDay()],
+                  ),
+                },
+              ),
+            );
+          }
         },
       );
 
