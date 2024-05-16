@@ -110,7 +110,7 @@ class KruRecordPage extends HookConsumerWidget {
                   value: recordState.value.duration.value.toDouble(),
                   onChanged: (value) {
                     recordState.value = recordState.value.copyWith(
-                      duration: drift.Value(value.toInt()),
+                      duration: drift.Value(value.round()),
                     );
                   },
                 ),
