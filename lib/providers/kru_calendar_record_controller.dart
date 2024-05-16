@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:isolate';
 
 import 'package:kru/daos/daos.dart';
 import 'package:kru/database/database.dart';
@@ -37,14 +36,11 @@ class KruCalendarRecordController extends _$KruCalendarRecordController {
     );
     if (records.isEmpty) return;
 
-    await Isolate.run(() {
-      final copy = state.toMap();
-
-      for (final record in records) {
-        copy[record.date] = (copy[record.date] ?? {})..add(record);
-      }
-      state = copy;
-    });
+    final copy = state.toMap();
+    for (final record in records) {
+      copy[record.date] = (copy[record.date] ?? {})..add(record);
+    }
+    state = copy;
   }
 }
 
