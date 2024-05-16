@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:kru/database/database.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 part 'kru_record_dao.g.dart';
 
@@ -15,20 +16,22 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
     with _$KruRecordDaoMixin {
   KruRecordDao(super.db);
 
-  Future<List<KruRecord>> records({
-    required int limit,
-    required int offset,
-    DateTimeRange? range,
+  Future<List<KruRecord>> recordsByDate(DateTime dt) {
+    return (select(kruRecords)
+          ..where((tbl) => tbl.date.isValue(normalizeDate(dt))))
+        .get();
+  }
+
+  Future<List<KruRecord>> recordsByDateRange({
+    required DateTime start,
+    required DateTime end,
   }) {
-    final tbl = select(kruRecords)
-      ..orderBy([(tbl) => OrderingTerm.desc(tbl.date)])
-      ..limit(limit, offset: offset);
-
-    if (range != null) {
-      tbl.where((tbl) => tbl.date.isBetweenValues(range.start, range.end));
-    }
-
-    return tbl.get();
+    return (select(kruRecords)
+          ..where(
+            (tbl) => tbl.date
+                .isBetweenValues(normalizeDate(start), normalizeDate(end)),
+          ))
+        .get();
   }
 
   Future<int> totalDuration(DateTimeRange range) async {
@@ -43,10 +46,6 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
 
   Future<int> addRecord(KruRecordsCompanion entry) {
     return into(kruRecords).insert(entry);
-  }
-
-  Future<void> addRecords(List<KruRecordsCompanion> entries) {
-    return batch((batch) => batch.insertAll(kruRecords, entries));
   }
 
   Future<void> updateRecord(KruRecordsCompanion entry) {

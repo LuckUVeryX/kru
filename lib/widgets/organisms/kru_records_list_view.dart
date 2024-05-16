@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kru/providers/providers.dart';
-import 'package:kru/utils/utils.dart';
 import 'package:kru/widgets/widgets.dart';
 
 class KruRecordsListView extends HookConsumerWidget {
@@ -9,72 +8,87 @@ class KruRecordsListView extends HookConsumerWidget {
     super.key,
   });
 
-  static const _limit = 10;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedDateRange = ref.watch(kruRecordDateRangeControllerProvider);
+    final dateSelection = ref.watch(kruRecordDateRangeControllerProvider);
+
+    final provider = switch (dateSelection) {
+      (final date?, (null, null)) => kruRecordDateProvider(date: date),
+      (null, (final start?, final end?)) =>
+        kruRecordDateRangeProvider(start: start, end: end),
+      _ => null,
+    };
+
+    final value = switch (provider) {
+      final p? => ref.watch(p),
+      _ => null,
+    };
 
     return SliverList.builder(
+      itemCount: value?.valueOrNull?.length,
       itemBuilder: (context, index) {
-        final provider = kruRecordContollerProvider(
-          offset: (index ~/ _limit) * _limit,
-          range: selectedDateRange,
-        );
-        final indexInPage = index % _limit;
-        final recordsList = ref.watch(provider);
-
-        return recordsList.when(
+        return value?.when(
           skipLoadingOnReload: true,
           data: (records) {
-            if (indexInPage >= records.length) return null;
-            final record = records[indexInPage];
+            final record = records[index];
             return KruRecordsListItem(
               record: record,
               onDismissed: (direction) async {
-                final notifier = ref.read(provider.notifier);
-                await notifier.deleteRecord(record);
+                switch (dateSelection) {
+                  case (final date?, (null, null)):
+                    final notifier = ref.read(
+                      kruRecordDateProvider(date: date).notifier,
+                    );
+                    await notifier.delete(record);
+
+                  case (null, (final start?, final end?)):
+                    final notifier = ref.read(
+                      kruRecordDateRangeProvider(start: start, end: end)
+                          .notifier,
+                    );
+                    await notifier.delete(record);
+                }
+
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text('Deleted'),
                     action: SnackBarAction(
                       label: 'Undo',
-                      onPressed: () {
-                        notifier.addRecord(record.toCompanion(false));
+                      onPressed: () async {
+                        final notifier =
+                            ref.read(kruRecordControllerProvider.notifier);
+                        await notifier.add(record.toCompanion(false));
                       },
                     ),
                   ),
                 );
               },
               onTap: () async {
-                final notifier = ref.read(provider.notifier);
                 final entry = await KruRecordPage.push(context, record: record);
                 if (entry == null) return;
-                return notifier.updateRecord(entry);
+
+                switch (dateSelection) {
+                  case (final date?, (null, null)):
+                    final notifier = ref.read(
+                      kruRecordDateProvider(date: date).notifier,
+                    );
+                    await notifier.edit(entry);
+
+                  case (null, (final start?, final end?)):
+                    final notifier = ref.read(
+                      kruRecordDateRangeProvider(start: start, end: end)
+                          .notifier,
+                    );
+                    await notifier.edit(entry);
+                }
               },
             );
           },
           error: (error, stackTrace) {
-            return indexInPage == 0
-                ? Center(child: Text(error.toString()))
-                : const Offstage();
+            return index == 0 ? Center(child: Text(error.toString())) : null;
           },
-          loading: () {
-            return ShimmerWidget(
-              child: ListTile(
-                leading: const CircleAvatar(),
-                title: ShimmerText(
-                  textStyle: context.textTheme.bodyLarge,
-                  spacerFlex: 2,
-                ),
-                subtitle: ShimmerText(
-                  textStyle: context.textTheme.bodyLarge,
-                  flex: 2,
-                ),
-              ),
-            );
-          },
+          loading: () => null,
         );
       },
     );

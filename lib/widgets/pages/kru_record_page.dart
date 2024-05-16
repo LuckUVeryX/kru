@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:kru/database/database.dart';
 import 'package:kru/utils/utils.dart';
 import 'package:kru/widgets/widgets.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class KruRecordPage extends HookConsumerWidget {
   const KruRecordPage._({
@@ -31,7 +32,7 @@ class KruRecordPage extends HookConsumerWidget {
       record?.toCompanion(true) ??
           KruRecordsCompanion.insert(
             duration: 2 * 60,
-            date: DateTime.now(),
+            date: normalizeDate(DateTime.now()),
             location: KruLocation.cq,
           ),
     );
@@ -88,7 +89,7 @@ class KruRecordPage extends HookConsumerWidget {
                     );
                     if (date == null) return;
                     recordState.value = recordState.value.copyWith(
-                      date: drift.Value(date),
+                      date: drift.Value(normalizeDate(date)),
                     );
                   },
                   child: Text(
@@ -127,7 +128,13 @@ class KruRecordPage extends HookConsumerWidget {
         child: OutlinedButton(
           onPressed: record?.toCompanion(true) == recordState.value
               ? null
-              : () => context.pop(recordState.value),
+              : () => context.pop(
+                    recordState.value.copyWith(
+                      date: drift.Value(
+                        normalizeDate(recordState.value.date.value),
+                      ),
+                    ),
+                  ),
           child: const Text('Save'),
         ),
       ),

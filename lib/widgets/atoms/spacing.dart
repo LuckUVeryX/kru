@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const sp2 = SizedBox.square(dimension: 2);
 const sp4 = SizedBox.square(dimension: 4);
 const sp8 = SizedBox.square(dimension: 8);
 const sp12 = SizedBox.square(dimension: 12);
