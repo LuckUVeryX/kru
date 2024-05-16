@@ -18,7 +18,8 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<KruRecord>> recordsByDate(DateTime dt) {
     return (select(kruRecords)
-          ..where((tbl) => tbl.date.isValue(normalizeDate(dt))))
+          ..where((tbl) => tbl.date.isValue(normalizeDate(dt)))
+          ..orderBy([(tbl) => OrderingTerm.desc(tbl.date)]))
         .get();
   }
 
@@ -30,7 +31,8 @@ class KruRecordDao extends DatabaseAccessor<AppDatabase>
           ..where(
             (tbl) => tbl.date
                 .isBetweenValues(normalizeDate(start), normalizeDate(end)),
-          ))
+          )
+          ..orderBy([(tbl) => OrderingTerm.desc(tbl.date)]))
         .get();
   }
 
