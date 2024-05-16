@@ -32,7 +32,19 @@ class KruRecordsListView extends HookConsumerWidget {
               record: record,
               onDismissed: (direction) async {
                 final notifier = ref.read(provider.notifier);
-                return notifier.deleteRecord(record);
+                await notifier.deleteRecord(record);
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Deleted'),
+                    action: SnackBarAction(
+                      label: 'Undo',
+                      onPressed: () {
+                        notifier.addRecord(record.toCompanion(false));
+                      },
+                    ),
+                  ),
+                );
               },
               onTap: () async {
                 final notifier = ref.read(provider.notifier);
