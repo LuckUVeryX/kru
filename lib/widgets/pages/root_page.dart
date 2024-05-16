@@ -11,7 +11,7 @@ class RootPage extends HookConsumerWidget {
     return const Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(),
+          KruStatsAppBar(),
           SliverToBoxAdapter(child: KruTableCalendar()),
           KruRecordsListView(),
           sp48Sliver,
