@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kru/database/database.dart';
+import 'package:kru/providers/kru_record_date_range_controller.dart';
 import 'package:kru/utils/utils.dart';
 import 'package:kru/widgets/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -32,7 +33,12 @@ class KruRecordPage extends HookConsumerWidget {
       record?.toCompanion(true) ??
           KruRecordsCompanion.insert(
             duration: 2 * 60,
-            date: normalizeDate(DateTime.now()),
+            date: normalizeDate(
+              ref.read(
+                kruRecordDateRangeControllerProvider
+                    .select((value) => value.$1 ?? DateTime.now()),
+              ),
+            ),
             location: KruLocation.cq,
           ),
     );
