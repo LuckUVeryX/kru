@@ -44,21 +44,6 @@ class AppDatabase extends _$AppDatabase {
           // It allows catching bugs in the migration logic early.
           await validateDatabaseSchema();
         },
-        onUpgrade: (m, from, to) async {
-          if (from < 2) {
-            // Normalised KruRecord.date
-            await m.alterTable(
-              TableMigration(
-                kruRecords,
-                columnTransformer: {
-                  kruRecords.date: kruRecords.date.modifyAll(
-                    [const DateTimeModifier.startOfDay()],
-                  ),
-                },
-              ),
-            );
-          }
-        },
       );
 
   static LazyDatabase _openConnection() {
