@@ -43,10 +43,13 @@ class KruTableMarker extends StatelessWidget {
         ),
       );
     }
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: children.insertBetween(sp2),
+    return Transform.translate(
+      offset: const Offset(0, -0.5),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: children.insertBetween(sp2),
+      ),
     );
   }
 }
