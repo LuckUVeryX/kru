@@ -25,6 +25,7 @@ class KruRecordsListView extends HookConsumerWidget {
         final recordsList = ref.watch(provider);
 
         return recordsList.when(
+          skipLoadingOnReload: true,
           data: (records) {
             if (indexInPage >= records.length) return null;
             final record = records[indexInPage];
