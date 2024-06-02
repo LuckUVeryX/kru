@@ -7,7 +7,7 @@ part of 'kru_record_controller.dart';
 // **************************************************************************
 
 String _$kruRecordControllerHash() =>
-    r'417cfc004fca7c55364e7df51ba9812109883e9b';
+    r'2815de8f6d9fcaa6e22068ddf75e72188f55d991';
 
 /// See also [KruRecordController].
 @ProviderFor(KruRecordController)

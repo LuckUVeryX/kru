@@ -33,7 +33,7 @@ class KruStatsAppBar extends HookConsumerWidget {
       _ => 0,
     };
 
-    var text = 'Kru Laiyan';
+    var text = 'Kru';
     if (duration != 0) {
       text =
           '${Duration(minutes: duration).inHoursMins} ~ ${NumberFormat.simpleCurrency(locale: 'en_SG').format(duration / 60 * 22)}';

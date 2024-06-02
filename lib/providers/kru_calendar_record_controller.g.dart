@@ -7,7 +7,7 @@ part of 'kru_calendar_record_controller.dart';
 // **************************************************************************
 
 String _$kruCalendarRecordControllerHash() =>
-    r'e9210d718dd325b72c10f4be0e543cd2310deb41';
+    r'9b807e873539d0a6b8fc330e8e8e28d929f0fb9e';
 
 /// See also [KruCalendarRecordController].
 @ProviderFor(KruCalendarRecordController)

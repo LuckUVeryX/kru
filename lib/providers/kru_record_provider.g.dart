@@ -6,7 +6,7 @@ part of 'kru_record_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$kruRecordDateHash() => r'd54783c8c3cac4b6d0975259e194344d7a8eeb32';
+String _$kruRecordDateHash() => r'809cdd3afdc375b354ef5ee4d1e0647d7e370be5';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -172,7 +172,7 @@ class _KruRecordDateProviderElement
 }
 
 String _$kruRecordDateRangeHash() =>
-    r'a59546f86a6f84961b7472bf51b8b13af9772207';
+    r'7dfd146b3f1a285804961ab21582317ffd25aeb2';
 
 abstract class _$KruRecordDateRange
     extends BuildlessAutoDisposeAsyncNotifier<List<KruRecord>> {
