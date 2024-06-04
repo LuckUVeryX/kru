@@ -44,7 +44,8 @@ class KruRecordsListItem extends StatelessWidget {
         leading: CircleAvatar(
           child: Text(
             Duration(minutes: record.duration).inHoursFrac,
-            style: context.textTheme.labelSmall,
+            style: context.textTheme.labelSmall
+                ?.copyWith(color: context.colorScheme.onPrimaryContainer),
             textAlign: TextAlign.center,
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kru/database/database.dart';
 import 'package:kru/providers/providers.dart';
+import 'package:kru/utils/utils.dart';
 import 'package:kru/widgets/molecules/kru_table_marker.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -82,6 +83,25 @@ class KruTableCalendar extends HookConsumerWidget {
       },
       calendarBuilders: CalendarBuilders(
         markerBuilder: (_, __, events) => KruTableMarker(events: events),
+      ),
+      calendarStyle: CalendarStyle(
+        selectedDecoration: BoxDecoration(
+          color: context.colorScheme.onSurface,
+          shape: BoxShape.circle,
+        ),
+        todayDecoration: BoxDecoration(
+          color: context.colorScheme.onSurface.withOpacity(0.5),
+          shape: BoxShape.circle,
+        ),
+        rangeHighlightColor: context.colorScheme.onSurface.withOpacity(0.2),
+        rangeStartDecoration: BoxDecoration(
+          color: context.colorScheme.onSurface.withOpacity(0.8),
+          shape: BoxShape.circle,
+        ),
+        rangeEndDecoration: BoxDecoration(
+          color: context.colorScheme.onSurface.withOpacity(0.8),
+          shape: BoxShape.circle,
+        ),
       ),
       eventLoader: (day) {
         return (events[day] ?? {}).toList();
