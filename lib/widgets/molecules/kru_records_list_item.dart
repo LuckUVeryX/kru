@@ -24,19 +24,19 @@ class KruRecordsListItem extends StatelessWidget {
       background: Container(
         padding: h24,
         alignment: Alignment.centerLeft,
-        color: context.colorScheme.errorContainer,
+        color: context.colorScheme.destructive,
         child: Icon(
           Icons.delete,
-          color: context.colorScheme.onErrorContainer,
+          color: context.colorScheme.destructiveForeground,
         ),
       ),
       secondaryBackground: Container(
         padding: h24,
         alignment: Alignment.centerRight,
-        color: context.colorScheme.errorContainer,
+        color: context.colorScheme.destructive,
         child: Icon(
           Icons.delete,
-          color: context.colorScheme.onErrorContainer,
+          color: context.colorScheme.destructiveForeground,
         ),
       ),
       child: ListTile(
@@ -44,8 +44,9 @@ class KruRecordsListItem extends StatelessWidget {
         leading: CircleAvatar(
           child: Text(
             Duration(minutes: record.duration).inHoursFrac,
-            style: context.textTheme.labelSmall
-                ?.copyWith(color: context.colorScheme.onPrimaryContainer),
+            style: context.textTheme.small.copyWith(
+              color: context.colorScheme.background,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

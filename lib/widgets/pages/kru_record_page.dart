@@ -8,6 +8,7 @@ import 'package:kru/database/database.dart';
 import 'package:kru/providers/providers.dart';
 import 'package:kru/utils/utils.dart';
 import 'package:kru/widgets/widgets.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class KruRecordPage extends HookConsumerWidget {
@@ -57,7 +58,7 @@ class KruRecordPage extends HookConsumerWidget {
                 padding: h16,
                 child: Text(
                   'Location',
-                  style: context.textTheme.titleLarge,
+                  style: context.textTheme.h4,
                 ),
               ),
               sp4,
@@ -82,12 +83,11 @@ class KruRecordPage extends HookConsumerWidget {
                 padding: h16,
                 child: Text(
                   'Date',
-                  style: context.textTheme.titleLarge,
+                  style: context.textTheme.h4,
                 ),
               ),
-              Padding(
-                padding: h16,
-                child: TextButton(
+              Center(
+                child: ShadButton.ghost(
                   onPressed: () async {
                     final date = await showDatePicker(
                       context: context,
@@ -101,14 +101,15 @@ class KruRecordPage extends HookConsumerWidget {
                       date: drift.Value(normalizeDate(date)),
                     );
                   },
-                  child: Text(
+                  text: Text(
                     DateFormat.yMMMEd().format(recordState.value.date.value),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
               Padding(
                 padding: h16,
-                child: Text('Duration', style: context.textTheme.titleLarge),
+                child: Text('Duration', style: context.textTheme.h4),
               ),
               Padding(
                 padding: h8,
@@ -136,17 +137,20 @@ class KruRecordPage extends HookConsumerWidget {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        child: OutlinedButton(
-          onPressed: record?.toCompanion(true) == recordState.value
-              ? null
-              : () => context.pop(
-                    recordState.value.copyWith(
-                      date: drift.Value(
-                        normalizeDate(recordState.value.date.value),
+        child: Center(
+          child: ShadButton(
+            onPressed: record?.toCompanion(true) == recordState.value
+                ? null
+                : () => context.pop(
+                      recordState.value.copyWith(
+                        date: drift.Value(
+                          normalizeDate(recordState.value.date.value),
+                        ),
                       ),
                     ),
-                  ),
-          child: const Text('Save'),
+            text: const Text('Save'),
+            size: ShadButtonSize.lg,
+          ),
         ),
       ),
     );

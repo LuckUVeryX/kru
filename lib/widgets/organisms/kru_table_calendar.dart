@@ -86,22 +86,24 @@ class KruTableCalendar extends HookConsumerWidget {
       ),
       calendarStyle: CalendarStyle(
         selectedDecoration: BoxDecoration(
-          color: context.colorScheme.onSurface,
+          color: context.colorScheme.primary,
           shape: BoxShape.circle,
         ),
         todayDecoration: BoxDecoration(
-          color: context.colorScheme.onSurface.withOpacity(0.5),
+          color: context.colorScheme.primary.withOpacity(0.5),
           shape: BoxShape.circle,
         ),
-        rangeHighlightColor: context.colorScheme.onSurface.withOpacity(0.2),
+        rangeHighlightColor: context.colorScheme.primary.withOpacity(0.2),
         rangeStartDecoration: BoxDecoration(
-          color: context.colorScheme.onSurface.withOpacity(0.8),
+          color: context.colorScheme.primary.withOpacity(0.8),
           shape: BoxShape.circle,
         ),
         rangeEndDecoration: BoxDecoration(
-          color: context.colorScheme.onSurface.withOpacity(0.8),
+          color: context.colorScheme.primary.withOpacity(0.8),
           shape: BoxShape.circle,
         ),
+        selectedTextStyle: context.textTheme.p
+            .copyWith(color: context.colorScheme.primaryForeground),
       ),
       eventLoader: (day) {
         return (events[day] ?? {}).toList();
